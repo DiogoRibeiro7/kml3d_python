@@ -193,3 +193,15 @@ def fast_or_slow_3d(to_plot, dist_name):
 
 # Example usage
 # fast = fast_or_slow_3d(to_plot="both", dist_name="euclidean3d")
+
+
+def kml3d(object, nb_clusters=range(2, 7), nb_redrawing=20, to_plot="none", par_algo=None):
+    # Check if the object is of the right type
+    if not isinstance(object, ClusterLongData3d):  # Replace with the correct type check
+        raise ValueError("[kml3d]: kml3d is for joint longitudinal data (object 'ClusterLongData3d').")
+
+    # Initial setups (scaling, etc.) go here
+
+    # Placeholder for further implementation
+
+    return None  # Placeholder return
