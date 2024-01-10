@@ -118,3 +118,34 @@ def dist3d(x, y):
 # traj = np.random.rand(100, 10, 10)  # Example 3D array
 # clusters_center = np.random.rand(5, 10, 10)  # Example cluster centers
 # cluster_affectation = affect_indiv_3d(traj, clusters_center, dist3d)
+
+
+def kml3d_slow(traj, cluster_affectation, to_plot="traj", par_algo=None):
+    if par_algo is None:
+        par_algo = par_kml3d()  # Assuming par_kml3d is already translated to Python
+
+    # Assuming long_data_3d is a translated function
+    long_dat_3d_traj = long_data_3d(traj, max_na=traj.shape[1] - 1)
+    kml_center_method = par_algo['centerMethod']
+    kml_distance = par_algo['distance']
+
+    ex_cluster_affectation = np.empty_like(
+        cluster_affectation)  # Initial empty array
+    for iteration in range(1, par_algo['maxIt'] + 1):
+        clusters_center = calcul_traj_mean_3d(
+            traj, cluster_affectation, center_method=kml_center_method)
+        cluster_affectation = affect_indiv_3d(
+            traj, clusters_center, distance=kml_distance)
+
+        if np.array_equal(cluster_affectation, ex_cluster_affectation):
+            # Assuming partition is a function that formats the output
+            return partition(cluster_affectation, long_dat_3d_traj, details={"convergenceTime": str(iteration), "algorithm": "kmeans 3d, slow (Python)", "multiplicity": "1"})
+
+        ex_cluster_affectation = np.copy(cluster_affectation)
+
+    return partition(cluster_affectation, long_dat_3d_traj, details={"convergenceTime": "Inf", "algorithm": "kmeans 3d, slow (Python)", "multiplicity": "1"})
+
+# Example usage
+# traj = np.random.rand(100, 10, 10)  # Example 3D array
+# cluster_affectation = np.random.randint(0, 5, 100)  # Initial cluster assignments
+# result = kml3d_slow(traj, cluster_affectation)
