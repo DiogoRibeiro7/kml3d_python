@@ -149,3 +149,47 @@ def kml3d_slow(traj, cluster_affectation, to_plot="traj", par_algo=None):
 # traj = np.random.rand(100, 10, 10)  # Example 3D array
 # cluster_affectation = np.random.randint(0, 5, 100)  # Initial cluster assignments
 # result = kml3d_slow(traj, cluster_affectation)
+
+import numpy as np
+
+def kml3d_fast(traj, cluster_affectation):
+    # Type checks for robustness
+    if not isinstance(traj, np.ndarray):
+        raise TypeError("traj must be a numpy array")
+
+    # Reshape traj to a 2D matrix if it's not already
+    if traj.ndim > 2:
+        traj = traj.reshape(traj.shape[0], -1)
+
+    # Assuming kml_fast is the Python equivalent of kmlFast
+    return kml_fast(traj, cluster_affectation)
+
+# Example usage
+# traj = np.random.rand(100, 10, 10)  # Example 3D array
+# cluster_affectation = np.random.randint(0, 5, 100)  # Example cluster assignments
+# result = kml3d_fast(traj, cluster_affectation)
+
+
+def fast_or_slow_3d(to_plot, dist_name):
+    """
+    Decide whether to use the fast or slow implementation of a 3D K-means-like algorithm.
+
+    Parameters:
+    to_plot (str): Plotting option, can be 'both', 'traj', or other values.
+    dist_name (str): Name of the distance function to use, e.g., 'euclidean3d'.
+
+    Returns:
+    bool: True for fast implementation, False for slow implementation.
+    """
+
+    if to_plot in ["both", "traj"] or dist_name != "euclidean3d":
+        print(" ~ Slow KmL3D ~")
+        fast = False
+    else:
+        print(" ~ Fast KmL3D ~")
+        fast = True
+
+    return fast
+
+# Example usage
+# fast = fast_or_slow_3d(to_plot="both", dist_name="euclidean3d")
